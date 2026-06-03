@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hajju Ogah — Data & Excel Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --green: #1a7a4a;
+  --green-light: #e8f5ee;
+  --green-mid: #2ecc71;
+  --excel: #217346;
+  --excel-dark: #185a32;
+  --ink: #0d0d0d;
+  --paper: #f7f7f5;
+  --card: #ffffff;
+  --border: #e2e2de;
+  --muted: #6b6b68;
+  --accent: #f59e0b;
+  --blue: #2563eb;
+  --blue-light: #eff6ff;
+  --red-light: #fef2f2;
+  --yellow-light: #fffbeb;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { font-family: 'Outfit', sans-serif; background: var(--paper); color: var(--ink); overflow-x: hidden; }
+
+/* NAV */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  background: rgba(247,247,245,0.95); backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 1rem 2.5rem;
+}
+.nav-brand { display: flex; align-items: center; gap: 10px; }
+.nav-icon { width: 32px; height: 32px; background: var(--excel); border-radius: 6px; display: flex; align-items: center; justify-content: center; }
+.nav-icon svg { width: 18px; height: 18px; fill: white; }
+.nav-name { font-weight: 600; font-size: 15px; }
+.nav-links { display: flex; gap: 1.5rem; list-style: none; }
+.nav-links a { font-size: 13px; font-weight: 500; color: var(--muted); text-decoration: none; transition: color .2s; }
+.nav-links a:hover { color: var(--excel); }
+.nav-cta { font-size: 13px; font-weight: 500; padding: 6px 16px; background: var(--excel); color: white; border-radius: 6px; text-decoration: none; transition: background .2s; }
+.nav-cta:hover { background: var(--excel-dark); }
+
+/* HERO */
+.hero {
+  min-height: 100vh; display: flex; align-items: center;
+  padding: 7rem 2.5rem 4rem;
+  background: linear-gradient(135deg, #f0faf4 0%, #f7f7f5 50%, #fff8e7 100%);
+  position: relative; overflow: hidden;
+}
+.hero::before {
+  content: ''; position: absolute; top: -100px; right: -100px;
+  width: 600px; height: 600px;
+  background: radial-gradient(circle, rgba(33,115,70,0.08) 0%, transparent 70%);
+  pointer-events: none;
+}
+.hero-inner { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center; width: 100%; }
+.hero-badge { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--excel); background: var(--green-light); padding: 5px 12px; border-radius: 20px; margin-bottom: 1.2rem; }
+.hero-badge::before { content: ''; width: 8px; height: 8px; background: var(--green-mid); border-radius: 50%; animation: pulse 2s infinite; }
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.4} }
+.hero h1 { font-size: clamp(2.5rem, 5vw, 4rem); font-weight: 700; line-height: 1.05; margin-bottom: 1rem; }
+.hero h1 span { color: var(--excel); }
+.hero-sub { font-size: 1.05rem; color: var(--muted); line-height: 1.75; margin-bottom: 2rem; max-width: 460px; }
+.hero-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 2.5rem; }
+.tag { font-size: 12px; font-weight: 500; padding: 4px 12px; border-radius: 20px; border: 1px solid var(--border); background: white; color: var(--ink); }
+.tag.green { background: var(--green-light); border-color: #b7dfc8; color: var(--excel); }
+.hero-actions { display: flex; gap: 12px; flex-wrap: wrap; }
+.btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 24px; border-radius: 8px; font-size: 14px; font-weight: 600; text-decoration: none; transition: all .2s; cursor: pointer; border: none; }
+.btn-primary { background: var(--excel); color: white; }
+.btn-primary:hover { background: var(--excel-dark); transform: translateY(-1px); box-shadow: 0 4px 16px rgba(33,115,70,.25); }
+.btn-ghost { background: white; color: var(--ink); border: 1.5px solid var(--border); }
+.btn-ghost:hover { border-color: var(--excel); color: var(--excel); }
+
+/* STATS CARD */
+.hero-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.stat-card { background: white; border: 1px solid var(--border); border-radius: 12px; padding: 1.5rem; transition: transform .2s, box-shadow .2s; }
+.stat-card:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(0,0,0,.08); }
+.stat-card.accent { background: var(--excel); color: white; border-color: var(--excel); }
+.stat-num { font-size: 2.2rem; font-weight: 700; line-height: 1; margin-bottom: 4px; }
+.stat-card.accent .stat-num { color: white; }
+.stat-label { font-size: 13px; color: var(--muted); }
+.stat-card.accent .stat-label { color: rgba(255,255,255,.75); }
+.stat-icon { font-size: 1.5rem; margin-bottom: 8px; }
+
+/* SECTION */
+.section { padding: 5rem 2.5rem; max-width: 1100px; margin: 0 auto; }
+.section-full { padding: 5rem 2.5rem; }
+.section-label { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: .15em; text-transform: uppercase; color: var(--excel); margin-bottom: .6rem; display: flex; align-items: center; gap: 8px; }
+.section-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+.section-title { font-size: clamp(1.8rem, 3.5vw, 2.5rem); font-weight: 700; line-height: 1.15; margin-bottom: .6rem; }
+.section-sub { font-size: 1rem; color: var(--muted); margin-bottom: 3rem; max-width: 560px; }
+
+/* BEFORE / AFTER PROJECT CARDS */
+.project { background: white; border: 1px solid var(--border); border-radius: 16px; overflow: hidden; margin-bottom: 3rem; box-shadow: 0 2px 12px rgba(0,0,0,.04); }
+.project-header { padding: 2rem 2rem 1.5rem; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: flex-start; }
+.project-num { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--muted); margin-bottom: .4rem; }
+.project-title { font-size: 1.3rem; font-weight: 700; margin-bottom: .4rem; }
+.project-desc { font-size: .9rem; color: var(--muted); max-width: 500px; }
+.project-badge { font-size: 12px; font-weight: 600; padding: 4px 12px; border-radius: 20px; background: var(--green-light); color: var(--excel); white-space: nowrap; }
+.ba-grid { display: grid; grid-template-columns: 1fr 1fr; }
+.ba-pane { padding: 1.5rem 2rem; }
+.ba-pane.before { border-right: 1px solid var(--border); background: #fafafa; }
+.ba-pane.after { background: #f0faf4; }
+.ba-label { font-size: 11px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; margin-bottom: 1rem; display: flex; align-items: center; gap: 6px; }
+.ba-label.before-lbl { color: #dc2626; }
+.ba-label.after-lbl { color: var(--excel); }
+.ba-label::before { content: ''; width: 8px; height: 8px; border-radius: 50%; }
+.before-lbl::before { background: #dc2626; }
+.after-lbl::before { background: var(--green-mid); }
+
+/* SPREADSHEET MOCKUP */
+.sheet { border: 1px solid #d1d5db; border-radius: 8px; overflow: hidden; font-family: 'DM Mono', monospace; font-size: 11px; margin-bottom: 1rem; }
+.sheet-toolbar { background: #f3f4f6; padding: 6px 10px; border-bottom: 1px solid #d1d5db; font-size: 10px; color: #6b7280; display: flex; gap: 1rem; }
+.sheet-grid { overflow-x: auto; }
+table.sg { width: 100%; border-collapse: collapse; }
+table.sg th { background: #f9fafb; padding: 5px 8px; text-align: left; border: 1px solid #e5e7eb; font-weight: 600; font-size: 10px; color: #374151; white-space: nowrap; }
+table.sg td { padding: 4px 8px; border: 1px solid #e5e7eb; font-size: 10px; white-space: nowrap; color: #1f2937; }
+.cell-hdr { background: #217346 !important; color: white !important; font-weight: 700 !important; }
+.cell-confirmed { background: #fef9c3; color: #854d0e; font-weight: 600; }
+.cell-completed { background: #dcfce7; color: #166534; font-weight: 600; }
+.cell-formula { background: #eff6ff; color: #1d4ed8; font-style: italic; }
+.cell-lost { background: #e5e7eb; color: #374151; }
+.cell-won { background: #dcfce7; color: #166534; font-weight: 600; }
+.cell-error { background: #fee2e2; color: #dc2626; }
+.cell-bold { font-weight: 700; }
+.row-alt { background: #f9fafb; }
+
+/* WHAT I DID */
+.did-list { list-style: none; margin-top: 1rem; }
+.did-list li { display: flex; align-items: flex-start; gap: 10px; font-size: 13px; line-height: 1.6; margin-bottom: .6rem; color: #374151; }
+.did-list li::before { content: '✓'; color: var(--excel); font-weight: 700; flex-shrink: 0; margin-top: 1px; }
+
+/* SKILL PILLS */
+.pill-row { display: flex; flex-wrap: wrap; gap: 6px; margin-top: .8rem; }
+.pill { font-family: 'DM Mono', monospace; font-size: 10px; padding: 3px 10px; border-radius: 20px; background: #e8f5ee; color: var(--excel); border: 1px solid #b7dfc8; font-weight: 500; }
+
+/* SKILLS GRID */
+.skills-section { background: var(--excel-dark); color: white; padding: 5rem 2.5rem; }
+.skills-inner { max-width: 1100px; margin: 0 auto; }
+.skills-section .section-label { color: #86efac; }
+.skills-section .section-label::after { background: rgba(255,255,255,.15); }
+.skills-section .section-title { color: white; }
+.skills-section .section-sub { color: rgba(255,255,255,.65); }
+.skills-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+.skill-card { background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.12); border-radius: 10px; padding: 1.3rem; transition: background .2s; }
+.skill-card:hover { background: rgba(255,255,255,.12); }
+.skill-card-label { font-size: 11px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: #86efac; margin-bottom: .6rem; }
+.skill-card-items { font-size: 13px; color: rgba(255,255,255,.8); line-height: 1.7; }
+
+/* TESTIMONIAL / PROOF BAR */
+.proof-bar { background: var(--accent); padding: 2rem 2.5rem; }
+.proof-inner { max-width: 1100px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 2rem; flex-wrap: wrap; }
+.proof-item { text-align: center; }
+.proof-num { font-size: 2rem; font-weight: 700; color: white; }
+.proof-lbl { font-size: 12px; color: rgba(255,255,255,.85); }
+
+/* CONTACT */
+.contact-section { background: var(--ink); color: white; padding: 5rem 2.5rem; text-align: center; }
+.contact-section h2 { font-size: 2.5rem; font-weight: 700; margin-bottom: .5rem; }
+.contact-section p { color: rgba(255,255,255,.6); margin-bottom: 2rem; }
+.contact-links { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; }
+.contact-link { display: inline-flex; align-items: center; gap: 8px; padding: 12px 24px; border: 1.5px solid rgba(255,255,255,.2); border-radius: 8px; color: white; text-decoration: none; font-size: 14px; font-weight: 500; transition: all .2s; }
+.contact-link:hover { background: rgba(255,255,255,.1); border-color: rgba(255,255,255,.4); }
+footer { text-align: center; padding: 1.5rem; font-size: 12px; color: var(--muted); border-top: 1px solid var(--border); }
+
+/* RESPONSIVE */
+@media (max-width: 900px) {
+  .hero-inner, .ba-grid, .skills-grid { grid-template-columns: 1fr; }
+  nav { padding: .8rem 1.2rem; }
+  .nav-links { display: none; }
+  .section, .section-full { padding: 3rem 1.2rem; }
+  .hero { padding: 6rem 1.2rem 3rem; }
+}
+
+/* SCROLL ANIMATION */
+.fade { opacity: 0; transform: translateY(20px); transition: opacity .6s ease, transform .6s ease; }
+.fade.visible { opacity: 1; transform: translateY(0); }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-brand">
+    <div class="nav-icon">
+      <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6zm-1 1.5L18.5 9H13V3.5zM8 11h8v1.5H8V11zm0 3h8v1.5H8V14zm0 3h5v1.5H8V17z"/></svg>
+    </div>
+    <span class="nav-name">Hajju Ogah · Data Portfolio</span>
+  </div>
+  <ul class="nav-links">
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#contact">Hire Me</a></li>
+  </ul>
+  <a href="mailto:jasminesuleiman15@gmail.com" class="nav-cta">Get a Quote</a>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-inner">
+    <div>
+      <div class="hero-badge">Available for Upwork Projects</div>
+      <h1>Excel & Data<br><span>Specialist</span><br>for Hire</h1>
+      <p class="hero-sub">VLOOKUP · INDEX-MATCH · Pivot Tables · Dashboards · Data Cleaning · Google Sheets. Clean data in, clear answers out — delivered accurately, every time.</p>
+      <div class="hero-tags">
+        <span class="tag green">VLOOKUP / XLOOKUP</span>
+        <span class="tag green">Pivot Tables</span>
+        <span class="tag green">Conditional Formatting</span>
+        <span class="tag green">COUNTIF / SUMIF</span>
+        <span class="tag">Data Validation</span>
+        <span class="tag">Dashboard Design</span>
+        <span class="tag">Data Cleaning</span>
+        <span class="tag">Google Sheets</span>
+      </div>
+      <div class="hero-actions">
+        <a href="#projects" class="btn btn-primary">View My Work ↓</a>
+        <a href="mailto:jasminesuleiman15@gmail.com" class="btn btn-ghost">Hire Me on Upwork</a>
+      </div>
+    </div>
+    <div class="hero-stats">
+      <div class="stat-card accent">
+        <div class="stat-icon">📊</div>
+        <div class="stat-num">3+</div>
+        <div class="stat-label">Years Excel & Sheets experience</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon">✅</div>
+        <div class="stat-num">100%</div>
+        <div class="stat-label">Accuracy rate across all audited records</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon">⚡</div>
+        <div class="stat-num">40%</div>
+        <div class="stat-label">Avg processing time reduced via automation</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon">🔍</div>
+        <div class="stat-num">7×</div>
+        <div class="stat-label">Technical certifications earned (2025)</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PROOF BAR -->
+<div class="proof-bar">
+  <div class="proof-inner">
+    <div class="proof-item"><div class="proof-num">VLOOKUP</div><div class="proof-lbl">Cross-sheet data lookup</div></div>
+    <div class="proof-item"><div class="proof-num">INDEX-MATCH</div><div class="proof-lbl">Advanced formula combos</div></div>
+    <div class="proof-item"><div class="proof-num">PIVOT TABLES</div><div class="proof-lbl">Instant data summaries</div></div>
+    <div class="proof-item"><div class="proof-num">COUNTIF / SUMIF</div><div class="proof-lbl">Conditional calculations</div></div>
+    <div class="proof-item"><div class="proof-num">DASHBOARDS</div><div class="proof-lbl">Visual, executive-ready</div></div>
+  </div>
+</div>
+
+<!-- PROJECTS -->
+<div class="section" id="projects">
+  <div class="section-label">Portfolio Work</div>
+  <h2 class="section-title">Real Spreadsheet Projects</h2>
+  <p class="section-sub">Before & after views of actual data work — formatting, formulas, pivot tables, VLOOKUP, and conditional formatting applied to real datasets.</p>
+
+  <!-- PROJECT 1 -->
+  <div class="project fade">
+    <div class="project-header">
+      <div>
+        <div class="project-num">PROJECT 01 · WORKSHEET 1</div>
+        <div class="project-title">Bike Utilisation Tracker — Data Formatting & COUNTIF</div>
+        <div class="project-desc">Raw dataset with broken date formats, missing status counts, no header styling, and no conditional formatting. Transformed into a clean, filterable, colour-coded operations tracker.</div>
+        <div class="pill-row">
+          <span class="pill">Header Formatting</span>
+          <span class="pill">Conditional Formatting</span>
+          <span class="pill">COUNTIF</span>
+          <span class="pill">SUM</span>
+          <span class="pill">Freeze Panes</span>
+          <span class="pill">Filter</span>
+        </div>
+      </div>
+      <div class="project-badge">✓ Completed</div>
+    </div>
+    <div class="ba-grid">
+      <div class="ba-pane before">
+        <div class="ba-label before-lbl">BEFORE — Raw / Broken</div>
+        <div class="sheet">
+          <div class="sheet-toolbar">📄 Worksheet1.xlsx &nbsp;|&nbsp; No formatting &nbsp;|&nbsp; Missing formulas</div>
+          <div class="sheet-grid">
+            <table class="sg">
+              <tr><th>A</th><th>B</th><th>C</th><th>D</th><th>E</th><th>F</th></tr>
+              <tr><td class="cell-bold">Name</td><td class="cell-bold">Bike Type</td><td class="cell-bold">Day</td><td class="cell-bold">Date</td><td class="cell-bold">Time</td><td class="cell-bold">Status</td></tr>
+              <tr class="row-alt"><td>Customer 3</td><td>Gravel bike</td><td class="cell-error">47493</td><td class="cell-error">47493</td><td class="cell-error">0.6145...</td><td>COMPLETED</td></tr>
+              <tr><td>Customer 10</td><td>Gravel bike</td><td class="cell-error">47492</td><td class="cell-error">47492</td><td class="cell-error">0.5625</td><td>CONFIRMED</td></tr>
+              <tr class="row-alt"><td>Customer 5</td><td>Mountain bike</td><td class="cell-error">47501</td><td class="cell-error">47501</td><td class="cell-error">0.6979...</td><td>COMPLETED</td></tr>
+              <tr><td>Customer 7</td><td>Road bike</td><td class="cell-error">47491</td><td class="cell-error">47491</td><td class="cell-error">0.4895...</td><td>COMPLETED</td></tr>
+              <tr class="row-alt" style="border-top:2px solid #d1d5db"><td></td><td></td><td class="cell-bold">Status</td><td class="cell-bold">Count</td><td></td><td></td></tr>
+              <tr><td></td><td></td><td>CONFIRMED</td><td class="cell-error">—</td><td></td><td></td></tr>
+              <tr class="row-alt"><td></td><td></td><td>COMPLETED</td><td class="cell-error">—</td><td></td><td></td></tr>
+              <tr><td></td><td></td><td>Utilization Total</td><td class="cell-error">—</td><td></td><td></td></tr>
+            </table>
+          </div>
+        </div>
+        <ul class="did-list" style="font-size:12px;color:#dc2626">
+          <li style="color:#dc2626">Dates stored as serial numbers (47493) not readable</li>
+          <li style="color:#dc2626">Times shown as decimals (0.6145)</li>
+          <li style="color:#dc2626">Header row has no formatting or colour</li>
+          <li style="color:#dc2626">Status counts missing — no COUNTIF applied</li>
+          <li style="color:#dc2626">No conditional formatting on Status column</li>
+          <li style="color:#dc2626">No filter or freeze on header row</li>
+        </ul>
+      </div>
+      <div class="ba-pane after">
+        <div class="ba-label after-lbl">AFTER — Cleaned & Formatted</div>
+        <div class="sheet">
+          <div class="sheet-toolbar">✅ Worksheet1_cleaned.xlsx &nbsp;|&nbsp; Formatted · Formulas applied</div>
+          <div class="sheet-grid">
+            <table class="sg">
+              <tr><th>A</th><th>B</th><th>C</th><th>D</th><th>E</th><th>F</th></tr>
+              <tr><td class="cell-hdr">Name ▼</td><td class="cell-hdr">Bike Type ▼</td><td class="cell-hdr">Day</td><td class="cell-hdr">Date</td><td class="cell-hdr">Time</td><td class="cell-hdr">Status ▼</td></tr>
+              <tr class="row-alt"><td>Customer 3</td><td>Gravel bike</td><td>Wed</td><td>01/10/2030</td><td>14:45</td><td class="cell-completed">COMPLETED</td></tr>
+              <tr><td>Customer 10</td><td>Gravel bike</td><td>Tue</td><td>30/09/2030</td><td>13:30</td><td class="cell-confirmed">CONFIRMED</td></tr>
+              <tr class="row-alt"><td>Customer 5</td><td>Mountain bike</td><td>Thu</td><td>11/10/2030</td><td>16:45</td><td class="cell-completed">COMPLETED</td></tr>
+              <tr><td>Customer 7</td><td>Road bike</td><td>Mon</td><td>29/09/2030</td><td>11:45</td><td class="cell-completed">COMPLETED</td></tr>
+              <tr class="row-alt" style="border-top:2px solid #d1d5db"><td></td><td></td><td class="cell-bold">Status</td><td class="cell-bold">Count</td><td></td><td></td></tr>
+              <tr><td></td><td></td><td class="cell-confirmed">CONFIRMED</td><td class="cell-formula">=COUNTIF(F2:F20,"CONFIRMED") → 10</td><td></td><td></td></tr>
+              <tr class="row-alt"><td></td><td></td><td class="cell-completed">COMPLETED</td><td class="cell-formula">=COUNTIF(F2:F20,"COMPLETED") → 9</td><td></td><td></td></tr>
+              <tr><td></td><td></td><td class="cell-bold">Util. Total</td><td class="cell-formula">=SUM(D25:D26) → 19</td><td></td><td></td></tr>
+            </table>
+          </div>
+        </div>
+        <ul class="did-list">
+          <li>Header row bolded, filled Excel green, frozen at top</li>
+          <li>Filter added to Bike Type column (B) for sorting</li>
+          <li>Conditional formatting: Yellow = CONFIRMED, Green = COMPLETED</li>
+          <li>COUNTIF formula added: <code style="font-family:monospace;font-size:10px">=COUNTIF(F2:F20,"CONFIRMED")</code></li>
+          <li>SUM formula for Utilization Total: <code style="font-family:monospace;font-size:10px">=SUM(D25:D26)</code></li>
+          <li>Date/time columns formatted to readable display</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- PROJECT 2 -->
+  <div class="project fade">
+    <div class="project-header">
+      <div>
+        <div class="project-num">PROJECT 02 · WORKSHEET 2</div>
+        <div class="project-title">Marketing Bids — Pivot Table Build</div>
+        <div class="project-desc">Raw marketing bid data across three project categories. Built a Pivot Table from scratch to summarise Bid Amount and Potential Revenue by category, filtered to show only winning bids.</div>
+        <div class="pill-row">
+          <span class="pill">Pivot Table</span>
+          <span class="pill">Sum of Bid Amount</span>
+          <span class="pill">Sum of Potential Revenue</span>
+          <span class="pill">Category Grouping</span>
+          <span class="pill">Filter: Won Only</span>
+        </div>
+      </div>
+      <div class="project-badge">✓ Completed</div>
+    </div>
+    <div class="ba-grid">
+      <div class="ba-pane before">
+        <div class="ba-label before-lbl">BEFORE — Raw Data, No Summary</div>
+        <div class="sheet">
+          <div class="sheet-toolbar">📄 Table A — unstructured raw rows</div>
+          <div class="sheet-grid">
+            <table class="sg">
+              <tr><th>Project Category</th><th>Bid Amount</th><th>Won/Lost</th><th>Budget Tier</th><th>Potential Revenue</th></tr>
+              <tr><td>MKTG ONLY</td><td>103</td><td class="cell-won">Won</td><td>$5k–$10k</td><td>10,800</td></tr>
+              <tr class="row-alt"><td>MKTG ONLY</td><td>106</td><td class="cell-won">Won</td><td>$10k–$15k</td><td>21,600</td></tr>
+              <tr><td>WEB ONLY</td><td>51</td><td class="cell-lost">Lost</td><td>$15k–$20k</td><td>36,764</td></tr>
+              <tr class="row-alt"><td>MKTG ONLY</td><td>77</td><td class="cell-lost">Lost</td><td>Above $20k</td><td>26,460</td></tr>
+              <tr><td>MKTG + WEB</td><td>80</td><td class="cell-won">Won</td><td>$10k–$15k</td><td>19,251</td></tr>
+              <tr class="row-alt"><td>WEB ONLY</td><td>100</td><td class="cell-lost">Lost</td><td>$15k–$20k</td><td>14,908</td></tr>
+              <tr><td>…</td><td>…</td><td>…</td><td>…</td><td>…</td></tr>
+            </table>
+          </div>
+        </div>
+        <ul class="did-list" style="font-size:12px;color:#dc2626">
+          <li style="color:#dc2626">No summary — impossible to see totals at a glance</li>
+          <li style="color:#dc2626">Won and Lost bids mixed together in raw rows</li>
+          <li style="color:#dc2626">No grouping by project category</li>
+          <li style="color:#dc2626">Leadership cannot extract insight from this format</li>
+        </ul>
+      </div>
+      <div class="ba-pane after">
+        <div class="ba-label after-lbl">AFTER — Pivot Table Built</div>
+        <div class="sheet">
+          <div class="sheet-toolbar">✅ Pivot Table — Category × Revenue × Won Bids</div>
+          <div class="sheet-grid">
+            <table class="sg">
+              <tr><td class="cell-hdr">Row Labels</td><td class="cell-hdr">Sum of Bid Amt</td><td class="cell-hdr">Sum of Pot. Revenue</td></tr>
+              <tr><td class="cell-bold">MKTG + WEB</td><td>182</td><td>91,974</td></tr>
+              <tr class="row-alt"><td class="cell-bold">MKTG ONLY</td><td>286</td><td>80,460</td></tr>
+              <tr><td class="cell-bold">WEB ONLY</td><td>432</td><td>83,328</td></tr>
+              <tr style="border-top:2px solid #217346"><td class="cell-hdr">Grand Total</td><td class="cell-hdr">900</td><td class="cell-hdr">255,762</td></tr>
+            </table>
+          </div>
+        </div>
+        <ul class="did-list">
+          <li>Built Pivot Table from raw Table A data in cell A3</li>
+          <li>Rows: Project Category (MKTG ONLY, WEB ONLY, MKTG+WEB)</li>
+          <li>Values: Sum of Bid Amount + Sum of Potential Revenue</li>
+          <li>Filtered to show winning bid amounts per category</li>
+          <li>Grand Total row auto-calculated: 900 bids, $255,762 revenue</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- PROJECT 3 -->
+  <div class="project fade">
+    <div class="project-header">
+      <div>
+        <div class="project-num">PROJECT 03 · WORKSHEET 3</div>
+        <div class="project-title">Cross-Sheet VLOOKUP + Data Validation + Conditional Formatting</div>
+        <div class="project-desc">Built a dynamic lookup system: dropdown list pulling from Worksheet 2, VLOOKUP to auto-populate Potential Revenue and Won/Lost status from the selected Bid Amount, plus conditional formatting to visually flag lost bids in grey.</div>
+        <div class="pill-row">
+          <span class="pill">VLOOKUP</span>
+          <span class="pill">Data Validation</span>
+          <span class="pill">Dropdown List</span>
+          <span class="pill">Cross-Sheet Reference</span>
+          <span class="pill">Conditional Formatting</span>
+        </div>
+      </div>
+      <div class="project-badge">✓ Completed</div>
+    </div>
+    <div class="ba-grid">
+      <div class="ba-pane before">
+        <div class="ba-label before-lbl">BEFORE — Static, Manual Data</div>
+        <div class="sheet">
+          <div class="sheet-toolbar">📄 Worksheet3 — hardcoded values, no formulas</div>
+          <div class="sheet-grid">
+            <table class="sg">
+              <tr><th></th><th>B — Bid Amount</th><th>C — Pot. Revenue</th><th>D — Status</th></tr>
+              <tr><td class="cell-bold">3</td><td class="cell-error">103</td><td class="cell-error">10800</td><td class="cell-error">Won</td></tr>
+              <tr class="row-alt"><td class="cell-bold">4</td><td class="cell-error">106</td><td class="cell-error">21600</td><td class="cell-error">Won</td></tr>
+              <tr><td class="cell-bold">5</td><td class="cell-error">51</td><td class="cell-error">36764</td><td class="cell-error">Lost</td></tr>
+              <tr class="row-alt"><td class="cell-bold">6</td><td class="cell-error">77</td><td class="cell-error">26460</td><td class="cell-error">Lost</td></tr>
+            </table>
+          </div>
+        </div>
+        <ul class="did-list" style="font-size:12px;color:#dc2626">
+          <li style="color:#dc2626">All values hardcoded — won't update if source data changes</li>
+          <li style="color:#dc2626">No dropdown — free-text entry causes inconsistency errors</li>
+          <li style="color:#dc2626">No VLOOKUP — revenue and status typed manually</li>
+          <li style="color:#dc2626">No visual indicator for Lost rows</li>
+        </ul>
+      </div>
+      <div class="ba-pane after">
+        <div class="ba-label after-lbl">AFTER — Dynamic VLOOKUP System</div>
+        <div class="sheet">
+          <div class="sheet-toolbar">✅ VLOOKUP + Validation + Conditional Formatting applied</div>
+          <div class="sheet-grid">
+            <table class="sg">
+              <tr><th></th><th>B — Bid Amount ▼</th><th>C — Pot. Revenue</th><th>D — Status</th></tr>
+              <tr><td class="cell-bold">3</td><td style="background:#dbeafe;color:#1e40af;font-weight:600">103 ▾</td><td class="cell-formula">=VLOOKUP(B3, 'WS2'!F:J, 5, 0) → 10,800</td><td class="cell-won">Won</td></tr>
+              <tr class="row-alt"><td class="cell-bold">4</td><td style="background:#dbeafe;color:#1e40af;font-weight:600">51 ▾</td><td class="cell-formula">=VLOOKUP(B4, 'WS2'!F:J, 5, 0) → 36,764</td><td class="cell-lost">Lost</td></tr>
+              <tr style="background:#e5e7eb"><td class="cell-bold">5</td><td class="cell-lost" style="background:#e5e7eb">77 ▾</td><td style="background:#e5e7eb;color:#374151;font-style:italic">=VLOOKUP(B5…) → 26,460</td><td class="cell-lost" style="background:#e5e7eb;font-style:italic">Lost ← grey row</td></tr>
+              <tr class="row-alt"><td class="cell-bold">6</td><td style="background:#dbeafe;color:#1e40af;font-weight:600">80 ▾</td><td class="cell-formula">=VLOOKUP(B6…) → 19,251</td><td class="cell-won">Won</td></tr>
+            </table>
+          </div>
+        </div>
+        <ul class="did-list">
+          <li>Data Validation dropdown in B3:B9 referencing Bid Amounts from Worksheet 2</li>
+          <li>VLOOKUP in C3: <code style="font-family:monospace;font-size:10px">=VLOOKUP(B3,'Worksheet 2'!F:J,5,FALSE)</code></li>
+          <li>VLOOKUP in D3: <code style="font-family:monospace;font-size:10px">=VLOOKUP(B3,'Worksheet 2'!F:J,3,FALSE)</code></li>
+          <li>Conditional formatting: rows with "Lost" in col D filled grey (B:D range)</li>
+          <li>Entire lookup system is dynamic — change the dropdown, all values update instantly</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SKILLS -->
+<div class="skills-section" id="skills">
+  <div class="skills-inner">
+    <div class="section-label">Full Skill Set</div>
+    <h2 class="section-title" style="color:white;margin-bottom:.4rem">Everything I bring<br>to your spreadsheet</h2>
+    <p class="section-sub">From single formulas to full dashboard builds.</p>
+    <div class="skills-grid">
+      <div class="skill-card">
+        <div class="skill-card-label">Lookup Formulas</div>
+        <div class="skill-card-items">VLOOKUP · XLOOKUP · HLOOKUP<br>INDEX-MATCH · IFERROR wrapping<br>Cross-sheet & cross-workbook refs</div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-card-label">Aggregation</div>
+        <div class="skill-card-items">SUMIF · SUMIFS · COUNTIF · COUNTIFS<br>AVERAGEIF · MAX / MIN with criteria<br>Subtotals & grouped calculations</div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-card-label">Pivot Tables</div>
+        <div class="skill-card-items">Build from scratch · Calculated fields<br>Slicers & filters · Pivot Charts<br>Multi-source data consolidation</div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-card-label">Data Cleaning</div>
+        <div class="skill-card-items">Deduplication · Standardisation<br>TRIM · CLEAN · TEXT functions<br>Format correction & validation</div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-card-label">Formatting & UI</div>
+        <div class="skill-card-items">Conditional formatting (rules & formulas)<br>Data validation & dropdown lists<br>Named ranges · Freeze panes · Filters</div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-card-label">Dashboards & Reports</div>
+        <div class="skill-card-items">KPI tracker design · Chart building<br>Executive-ready summaries<br>Automated weekly reports via Zapier</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CONTACT -->
+<div class="contact-section" id="contact">
+  <h2>Ready to clean your data?</h2>
+  <p>Fast turnaround · 100% accuracy · Clear documentation on delivery</p>
+  <div class="contact-links">
+    <a href="mailto:jasminesuleiman15@gmail.com" class="contact-link">📧 jasminesuleiman15@gmail.com</a>
+    <a href="https://linkedin.com/in/hajju-ogah" target="_blank" class="contact-link">💼 LinkedIn Profile</a>
+    <a href="https://www.upwork.com" target="_blank" class="contact-link">🟢 Hire on Upwork</a>
+  </div>
+</div>
+<footer>© 2026 Hajju Ogah · Excel & Data Specialist · Remote · All projects shown are based on real completed work</footer>
+
+<script>
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.1 });
+document.querySelectorAll('.fade').forEach(el => obs.observe(el));
+</script>
+</body>
+</html>
